@@ -27,7 +27,8 @@ router.route('/companyInfo')
     .get(function(req, res) {
         const pool1 = new sql.ConnectionPool(config, err => {
           pool1.request().query('SELECT COMPANY_ID, COMPANY_NAME FROM PUB_TROVE.COMPANY_INFO', (err, result) => {
-            res.send(result);
+            res.send(JSON.stringify(result.recordset));
+            JSON.stringify(result.recordset);
             })
           })
       });
@@ -39,7 +40,8 @@ router.route('/companyInfo/:company_id')
           .get(function(req, res) {
               const pool1 = new sql.ConnectionPool(config, err => {
                 pool1.request().query('SELECT * FROM PUB_TROVE.COMPANY_INFO where company_id =' + req.params.company_id , (err, result) => {
-                  res.send(result);
+                  res.send(JSON.stringify(result.recordset));
+                  JSON.stringify(result.recordset);
                   })
                 })
             });
