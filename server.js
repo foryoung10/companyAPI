@@ -26,7 +26,7 @@ router.route('/companyInfo')
 //GET API
     .get(function(req, res) {
         const pool1 = new sql.ConnectionPool(config, err => {
-          pool1.request().query('SELECT COMPANY_ID, COMPANY_NAME FROM PUB_TROVE.COMPANY_INFO', (err, result) => {
+          pool1.request().query('SELECT gs_sec_id, company_name FROM PUB_TROVE.TBLUI_CompanyOwnership', (err, result) => {
             res.send(JSON.stringify(result.recordset));
             JSON.stringify(result.recordset);
             })
@@ -34,12 +34,12 @@ router.route('/companyInfo')
       });
 
 //
-router.route('/companyInfo/:company_id')
+router.route('/companyInfo/:gs_sec_id')
 
       //GET API
           .get(function(req, res) {
               const pool1 = new sql.ConnectionPool(config, err => {
-                pool1.request().query('SELECT * FROM PUB_TROVE.COMPANY_INFO where company_id =' + req.params.company_id , (err, result) => {
+                pool1.request().query('SELECT * FROM PUB_TROVE.TBLUI_CompanyOwnership where gs_sec_id =' + req.params.gs_sec_id , (err, result) => {
                   res.send(JSON.stringify(result.recordset));
                   JSON.stringify(result.recordset);
                   })
