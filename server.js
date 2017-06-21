@@ -23,7 +23,6 @@ router.use(function(req, res, next) {
 
 router.route('/companyInfo')
 
-//GET API
     .get(function(req, res) {
         const pool1 = new sql.ConnectionPool(config, err => {
           pool1.request().query('SELECT gs_sec_id, company_name FROM PUB_TROVE.TBLUI_CompanyOwnership', (err, result) => {
@@ -36,27 +35,69 @@ router.route('/companyInfo')
 //
 router.route('/companyInfo/:gs_sec_id')
 
-      //GET API
-          .get(function(req, res) {
-              const pool1 = new sql.ConnectionPool(config, err => {
-                pool1.request().query('SELECT * FROM PUB_TROVE.TBLUI_CompanyOwnership where gs_sec_id =' + req.params.gs_sec_id , (err, result) => {
-                  res.send(JSON.stringify(result.recordset));
-                  JSON.stringify(result.recordset);
-                  })
-                })
-            });
+    .get(function(req, res) {
+        const pool1 = new sql.ConnectionPool(config, err => {
+          pool1.request().query('SELECT * FROM PUB_TROVE.TBLUI_CompanyOwnership where gs_sec_id =' + req.params.gs_sec_id , (err, result) => {
+            res.send(JSON.stringify(result.recordset));
+            JSON.stringify(result.recordset);
+            })
+          })
+      });
 
 
-// more routes for our API will happen here
+router.route('/strategyBreakdownTest/')
+
+    .get(function(req, res) {
+        const pool1 = new sql.ConnectionPool(config, err => {
+          pool1.request().query('SELECT * FROM PUB_TROVE.TBLUI_StrategyBreakdown' , (err, result) => {
+            res.send(JSON.stringify(result.recordset));
+            JSON.stringify(result.recordset);
+            })
+          })
+      });
+
+router.route('/strategyBreakdown/:gs_sec_id')
+
+    .get(function(req, res) {
+        const pool1 = new sql.ConnectionPool(config, err => {
+          pool1.request().query('SELECT * FROM PUB_TROVE.TBLUI_CompanyOwnership where gs_sec_id =' + req.params.gs_sec_id , (err, result) => {
+            res.send(JSON.stringify(result.recordset));
+            JSON.stringify(result.recordset);
+            })
+          })
+      });
+
+router.route('/companyData/:list')
+
+    .get(function(req, res) {
+        console.log(req.params.list);
+        //var list = req.params.list.split(',');
+      //  console.log( list);
+        // var text = '('
+        // for (var i = 0; i < list.length; i++) {
+        //   text +=  list[i];
+//console.log(list[i]);
+  //      };
+        //console.log(text);
+      //  list = list.replace('[', '').replace(']','').replace('\"', '\'');
+        console.log('SELECT * FROM PUB_TROVE.TBLUI_CompanyOwnership where gs_sec_id in ( ' + req.params.list + ' )');
+        const pool1 = new sql.ConnectionPool(config, err => {
+          pool1.request().query('SELECT * FROM PUB_TROVE.TBLUI_CompanyOwnership where gs_sec_id in ( ' + req.params.list + ' )'
+          , (err, result) => {
+    //      console.log(result);
+          res.send(JSON.stringify(result.recordset));
+          JSON.stringify(result);
+          })
+        })
+    });
+
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use('/api', router);
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-
 // more routes for our API will happen here
 
-var server = app.listen(5000, function () {
+var server = app.listen(80, function () {
     console.log('Server is running..');
 });
