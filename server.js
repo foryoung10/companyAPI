@@ -45,7 +45,7 @@ router.route('/companyInfo/:gs_sec_id')
       });
 
 
-router.route('/strategyBreakdownTest/')
+router.route('/strategyBreakdowntest/:list')
 
     .get(function(req, res) {
         const pool1 = new sql.ConnectionPool(config, err => {
@@ -56,11 +56,13 @@ router.route('/strategyBreakdownTest/')
           })
       });
 
-router.route('/strategyBreakdown/:gs_sec_id')
+
+      router.route('/strategyBreakdown/:gs_sec_id')
+
 
     .get(function(req, res) {
         const pool1 = new sql.ConnectionPool(config, err => {
-          pool1.request().query('SELECT * FROM PUB_TROVE.TBLUI_CompanyOwnership where gs_sec_id =' + req.params.gs_sec_id , (err, result) => {
+          pool1.request().query('SELECT * FROM PUB_TROVE.TBLUI_StrategyBreakdown where gs_sec_id =' + req.params.gs_sec_id , (err, result) => {
             res.send(JSON.stringify(result.recordset));
             JSON.stringify(result.recordset);
             })
@@ -98,6 +100,6 @@ app.use('/api', router);
 
 // more routes for our API will happen here
 
-var server = app.listen(80, function () {
+var server = app.listen(5000, function () {
     console.log('Server is running..');
 });
